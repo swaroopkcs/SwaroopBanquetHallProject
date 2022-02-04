@@ -14,9 +14,9 @@ public class Banquet {
 		this.taxOnBeverage = taxOnBeverage;
 	}
 
-	double calculateBaseCost(double bookingBaseCost, double foodCost, double beverageCost, double tipPerc) {
+	double calculateBaseCost(double bookingBaseCost, double foodCost, double beverageCost, double tipPerc, int numOfGuests) {
 		//calculating the base cost without tip per person
-		double baseCostWoTip = bookingBaseCost + (foodCost*(100+taxOnFood)/100) + (beverageCost*(100+taxOnBeverage)/100);
+		double baseCostWoTip = bookingBaseCost + ((foodCost*(100+taxOnFood)/100) + (beverageCost*(100+taxOnBeverage)/100)*numOfGuests);
 		double tipAmount = baseCostWoTip * tipPerc / 100;
 		//base cost with tip
 		double baseCost = baseCostWoTip + tipAmount;
@@ -32,21 +32,23 @@ public class Banquet {
 	double calculateCess(int numOfGuests, double billBeforeTax) {
 		//bill before tax taken as the total base cost per person
 		double serviceCess = 0;
+		double cessPerc = 0;
 		if (numOfGuests <= 40) {
-			serviceCess = billBeforeTax * 4 / 100;
+			cessPerc = 4;
 		} else if (numOfGuests > 40 && numOfGuests <= 80) {
-			serviceCess = billBeforeTax * 8 / 100;
+			cessPerc = 8;
 		} else if (numOfGuests > 80 && numOfGuests < 150) {
-			serviceCess = billBeforeTax * 10 / 100;
+			cessPerc = 10;
 		} else {
-			serviceCess = billBeforeTax * 12.5 / 100;
+			cessPerc = 12.5;
 		}
+		serviceCess = billBeforeTax * cessPerc / 100;
 		return serviceCess;
 	}
-	void calcuateTheTotalCost(double baseCost, double tax, double cess, int numOfGuests) {
+	void calcuateTheTotalCost(double baseCost, double tax, double cess) {
 		//calculating the total base cost and calculating the price for the whole group
-		double totalCost = (baseCost+tax+cess)*numOfGuests;
-		System.out.println("The total cost will be: "+totalCost);
+		double totalCost = (baseCost+tax+cess);
+		System.out.println("The total cost will be:          "+totalCost);
 	}
 
 }
